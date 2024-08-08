@@ -1,27 +1,41 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
 import Chart from '../Chart';
-import Header from '../Header';
+import InfoCard from '../InfoCard';
+import DashboardCalendar from '../DashboardCalendar';
 import { useTranslation } from 'react-i18next';
 
 const Home: React.FC = () => {
-  const { notes } = useSelector((state: RootState) => state.notes);
   const { t } = useTranslation();
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <Header />
+    <div className="flex min-h-screen bg-gray-100">
       <div className="p-4">
-        <h1 className="text-2xl font-bold">{t('home')}</h1>
-        <Chart />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-          {notes.map((note) => (
-            <div key={note.id} className="p-4 bg-white shadow-md">
-              <h2 className="text-xl font-bold">{note.title}</h2>
-              <p>{note.content}</p>
-            </div>
-          ))}
+        <h1 className="text-2xl font-bold mb-4">{t('home.dashboard')}</h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <InfoCard
+            title={t('home.incomeToday')}
+            value="Rp. 0,-"
+            color="bg-green-200"
+          />
+          <InfoCard
+            title={t('home.incomeThisMonth')}
+            value="Rp. 0,-"
+            color="bg-blue-200"
+          />
+          <InfoCard
+            title={t('home.expenseToday')}
+            value="Rp. 0,-"
+            color="bg-red-200"
+          />
+          <InfoCard
+            title={t('home.expenseThisMonth')}
+            value="Rp. 0,-"
+            color="bg-orange-200"
+          />
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
+          <Chart />
+          <DashboardCalendar />
         </div>
       </div>
     </div>

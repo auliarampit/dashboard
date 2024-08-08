@@ -1,13 +1,14 @@
 import React from 'react';
-import { useForm, SubmitHandler, useFieldArray } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
+import { useForm, SubmitHandler, useFieldArray, Controller } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { RootState } from '../../redux/store';
+// import { RootState } from '../../redux/store';
 import { addNote } from '../../redux/slices/noteSlice';
-import axios from 'axios';
+// import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import showToast from '../../utils/toast';
+import { FaPlus, FaSave } from 'react-icons/fa'
 
 interface Note {
   title: string;
@@ -32,16 +33,16 @@ const schema = yup.object().shape({
 const AddNoteScreen: React.FC = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const notes = useSelector((state: RootState) => state.notes.notes);
+  // const notes = useSelector((state: RootState) => state.notes.notes);
 
-  const { register, control, handleSubmit, formState: { errors } } = useForm<IFormInput>({
+  const { control, handleSubmit, formState: { errors } } = useForm<IFormInput>({
     resolver: yupResolver(schema),
     defaultValues: {
       notes: [{ title: '', content: '', date: '' }],
     },
   });
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append } = useFieldArray({
     control,
     name: 'notes',
   });
@@ -54,93 +55,90 @@ const AddNoteScreen: React.FC = () => {
     showToast('success', t('noteAdded'));
   };
 
-  const saveNotesToAPI = async () => {
-    try {
-      await axios.post('/api/notes', notes, {
-        headers: {
-          'Content-Type': 'application/json',
-          // Add authentication token if needed
-        },
-      });
-      showToast('success', t('notesSaved'));
-    } catch (error) {
-      showToast('error', t('errorOccurred'));
-    }
-  };
+  // const saveNotesToAPI = async () => {
+  //   try {
+  //     await axios.post('/api/notes', notes, {
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         // Add authentication token if needed
+  //       },
+  //     });
+  //     showToast('success', t('notesSaved'));
+  //   } catch (error) {
+  //     showToast('error', t('errorOccurred'));
+  //   }
+  // };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
-      <div className="w-full max-w-2xl bg-white p-8 rounded shadow-md">
-        <h1 className="text-2xl font-bold mb-6">{t('addNote')}</h1>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          {fields.map((field, index) => (
-            <div key={field.id} className="flex items-center mb-4">
-              <div className="flex-1 mr-2">
-                <label htmlFor={`notes.${index}.title`} className="block text-sm font-medium text-gray-700">
-                  {t('title')}
-                </label>
-                <input
-                  {...register(`notes.${index}.title` as const)}
-                  id={`notes.${index}.title`}
-                  type="text"
-                  className="mt-1 block w-full p-2 border border-gray-300 rounded"
-                />
-                {errors.notes?.[index]?.title && <p className="text-red-600 text-sm">{errors.notes[index]?.title?.message}</p>}
-              </div>
-
-              <div className="flex-1 mx-2">
-                <label htmlFor={`notes.${index}.content`} className="block text-sm font-medium text-gray-700">
-                  {t('content')}
-                </label>
-                <textarea
-                  {...register(`notes.${index}.content` as const)}
-                  id={`notes.${index}.content`}
-                  rows={2}
-                  className="mt-1 block w-full p-2 border border-gray-300 rounded"
-                />
-                {errors.notes?.[index]?.content && <p className="text-red-600 text-sm">{errors.notes[index]?.content?.message}</p>}
-              </div>
-
-              <div className="flex-1 mx-2">
-                <label htmlFor={`notes.${index}.date`} className="block text-sm font-medium text-gray-700">
-                  {t('date')}
-                </label>
-                <input
-                  {...register(`notes.${index}.date` as const)}
-                  id={`notes.${index}.date`}
-                  type="date"
-                  className="mt-1 block w-full p-2 border border-gray-300 rounded"
-                />
-                {errors.notes?.[index]?.date && <p className="text-red-600 text-sm">{errors.notes[index]?.date?.message}</p>}
-              </div>
-
+    <div className="container mx-auto p-4 bg-gray-100 rounded-lg shadow-lg">
+      <h1 className="text-3xl font-bold mb-6 text-center text-blue-600">{t('addNote')}</h1>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {fields.map((item, index) => (
+          <div key={item.id} className="mb-4 p-4 bg-white rounded-lg shadow-md">
+            <div className="flex items-center mb-4">
+              <Controller
+                name={`notes.${index}.title` as const}
+                control={control}
+                render={({ field }) => (
+                  <input
+                    {...field}
+                    className="border p-2 mr-2 w-full rounded-lg"
+                    placeholder={t('title')}
+                  />
+                )}
+              />
+              {errors.notes?.[index]?.title && <span className="text-red-500">{t('titleRequired')}</span>}
+            </div>
+            <div className="flex items-center mb-4">
+              <Controller
+                name={`notes.${index}.content` as const}
+                control={control}
+                render={({ field }) => (
+                  <textarea
+                    {...field}
+                    className="border p-2 mr-2 w-full rounded-lg"
+                    placeholder={t('content')}
+                  />
+                )}
+              />
+              {errors.notes?.[index]?.content && <span className="text-red-500">{t('contentRequired')}</span>}
+            </div>
+            <div className="flex items-center mb-4">
+              <Controller
+                name={`notes.${index}.date` as const}
+                control={control}
+                render={({ field }) => (
+                  <input
+                    {...field}
+                    type="date"
+                    className="border p-2 mr-2 w-full rounded-lg"
+                  />
+                )}
+              />
+              {errors.notes?.[index]?.date && <span className="text-red-500">{t('dateRequired')}</span>}
+            </div>
+            <div className="flex justify-end">
               <button
-                type="button"
-                onClick={handleSubmit(onSubmit)}
-                className="p-2 bg-green-500 text-white rounded"
+                type="submit"
+                className="bg-blue-500 text-white p-2 rounded-lg flex items-center"
               >
+                <FaSave className="mr-2" />
                 {t('save')}
               </button>
-              <button type="button" onClick={() => remove(index)} className="text-red-600 text-sm ml-2">
-                {t('remove')}
-              </button>
             </div>
-          ))}
-        </form>
-        <button
-          type="button"
-          onClick={() => append({ title: '', content: '', date: '' })}
-          className="flex items-center mt-4 p-2 text-blue-500 border border-blue-500 rounded"
-        >
-          {t('addMore')}
-        </button>
-        <button onClick={saveNotesToAPI} className="w-full p-2 bg-blue-500 text-white rounded mt-4">
-          {t('saveToAPI')}
-        </button>
-        <button onClick={() => window.location.reload()} className="w-full p-2 bg-red-500 text-white rounded mt-4">
-          {t('cancel')}
-        </button>
-      </div>
+          </div>
+        ))}
+        <div className="flex justify-center mt-6">
+          <button
+            type="button"
+            className="bg-transparent text-blue-500 border border-blue-500 p-2 rounded-lg flex items-center"
+            onClick={() => append({ title: '', content: '', date: '' })}
+          >
+            <FaPlus className="mr-2" />
+            {t('addMore')}
+          </button>
+        </div>
+      </form>
     </div>
   );
 };

@@ -34,5 +34,8 @@
   "saveToState": "Simpan ke State",
   "saveToAPI": "Simpan ke API",
   "cancel": "Batal",
-  "remove": "Hapus"
+  "remove": "Hapus",
+  "dashboard": "Dasbor",
+  "dataKategori": "Data Kategori",
+  "dataTransaksi": "Data Transaksi"
 }

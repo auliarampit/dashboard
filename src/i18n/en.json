@@ -34,5 +34,8 @@
   "saveToState": "Save to State",
   "saveToAPI": "Save to API",
   "cancel": "Cancel",
-  "remove": "Remove"
+  "remove": "Remove",
+  "dashboard": "Dashboard",
+  "dataKategori": "Data Category",
+  "dataTransaksi": "Data Transaction"
 }
