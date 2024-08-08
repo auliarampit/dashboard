@@ -37,5 +37,9 @@
   "remove": "Remove",
   "dashboard": "Dashboard",
   "dataKategori": "Data Category",
-  "dataTransaksi": "Data Transaction"
+  "dataTransaksi": "Data Transaction",
+  "incomeToday": "Income Today",
+  "incomeThisMonth": "Income This Month",
+  "expenseToday": "Expense Today",
+  "expenseThisMonth": "Expense This Month"
 }

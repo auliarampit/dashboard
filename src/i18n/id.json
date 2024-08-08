@@ -37,5 +37,9 @@
   "remove": "Hapus",
   "dashboard": "Dasbor",
   "dataKategori": "Data Kategori",
-  "dataTransaksi": "Data Transaksi"
+  "dataTransaksi": "Data Transaksi",
+  "incomeToday": "Pemasukan Hari Ini",
+  "incomeThisMonth": "Pemasukan Bulan Ini",
+  "expenseToday": "Pengeluaran Hari Ini",
+  "expenseThisMonth": "Pengeluaran Bulan Ini"
 }

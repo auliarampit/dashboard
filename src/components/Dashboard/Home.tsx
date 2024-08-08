@@ -10,25 +10,25 @@ const Home: React.FC = () => {
   return (
     <div className="flex min-h-screen bg-gray-100">
       <div className="p-4">
-        <h1 className="text-2xl font-bold mb-4">{t('home.dashboard')}</h1>
+        <h1 className="text-2xl font-bold mb-4">{t('dashboard')}</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <InfoCard
-            title={t('home.incomeToday')}
+            title={t('incomeToday')}
             value="Rp. 0,-"
             color="bg-green-200"
           />
           <InfoCard
-            title={t('home.incomeThisMonth')}
+            title={t('incomeThisMonth')}
             value="Rp. 0,-"
             color="bg-blue-200"
           />
           <InfoCard
-            title={t('home.expenseToday')}
+            title={t('expenseToday')}
             value="Rp. 0,-"
             color="bg-red-200"
           />
           <InfoCard
-            title={t('home.expenseThisMonth')}
+            title={t('expenseThisMonth')}
             value="Rp. 0,-"
             color="bg-orange-200"
           />
